@@ -3,6 +3,7 @@ import jinja2
 import sys
 import pygments
 import pygments.lexers
+import pygments.formatters.html
 from pathlib import Path
 
 if __name__ == '__main__':
