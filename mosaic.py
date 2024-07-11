@@ -482,12 +482,29 @@ if __name__ == '__main__':
     )
     parser.add_argument('-r', '--run', action='store_true')
     parser.add_argument('-c', '--check', action='store_true')
+    parser.add_argument('-s', '--summary', action='store_true')
     args = parser.parse_args()
 
     src = Path(args.source).read_text()
     mosaic = Mosaic(src)
     if args.check:
         explored = mosaic.check()
+    elif args.summary:
+        explored = mosaic.run()
+        G = explored
+        V, E = G['vertices'], G['edges']
+        outputs = set()
+        for v in V:
+            if not v['choices']:
+                # No choices; program terminated. Collect the output.
+                out = v['stdout'].replace('\n', '⏎ ')
+                outputs.add(out)
+
+        for s in sorted(list(outputs)):
+            print(s)
+        print(f'|V| = {len(V)}, |E| = {len(E)}.')
+        print(f'There are {len(outputs)} distinct outputs.')
+        exit(0)
     else:
         explored = mosaic.run()  # run is the default option
 
