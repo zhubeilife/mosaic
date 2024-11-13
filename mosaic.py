@@ -490,7 +490,8 @@ if __name__ == '__main__':
     if args.check:
         explored = mosaic.check()
     elif args.summary:
-        explored = mosaic.run()
+        explored = mosaic.check()
+        print(json.dumps(explored, ensure_ascii=False, indent=2))
         G = explored
         V, E = G['vertices'], G['edges']
         outputs = set()
